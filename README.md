@@ -2,6 +2,8 @@
 
 **使用 [Vue3](https://cn.vuejs.org) + [Vite](https://www.vitejs.net) 构建的前端项目**
 
+> 线上地址：[katrox5.github.io/course-management-system](https://katrox5.github.io/course-management-system)
+
 技术栈：
 - TypeScript 作为开发语言
 - [Element Plus](https://element-plus.org/zh-CN) 作为 UI 组件库
