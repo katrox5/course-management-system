@@ -18,6 +18,7 @@ export default defineConfig({
       dts: './auto-imports.d.ts',
     }),
     Components({
+      dirs: ['src/layouts'],
       resolvers: [ElementPlusResolver()],
       dts: './components.d.ts',
     }),
