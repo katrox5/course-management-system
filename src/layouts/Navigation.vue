@@ -37,7 +37,7 @@
 
       <!-- 内容 -->
       <div class="flex-grow-1 bg-[#f4f3f3] relative overflow-y-auto">
-        <div class="w-full pt-4 px-4 absolute">
+        <div v-if="$route.fullPath !== '/'" class="w-full pt-4 px-4 absolute">
           <el-breadcrumb class="ml-2" separator="/">
             <template v-for="item in breadcrumb">
               <el-breadcrumb-item v-if="item">
