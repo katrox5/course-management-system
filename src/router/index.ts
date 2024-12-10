@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Navigation from '@/layouts/Navigation.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,7 +7,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      component: () => import('../pages/index.vue'),
+      components: {
+        default: Navigation,
+        main: () => import('../pages/index.vue'),
+      },
     },
     {
       path: '/login',
@@ -15,53 +19,80 @@ const router = createRouter({
     },
     {
       path: '/info',
-      name: 'info',
-      component: () => import('../pages/info/index.vue'),
+      component: Navigation,
       children: [
+        {
+          path: '',
+          name: 'info',
+          components: {
+            main: () => import('../pages/info/index.vue'),
+          },
+        },
         {
           path: 'list',
           name: 'info-list',
-          component: () => import('../pages/info/list.vue'),
+          components: {
+            main: () => import('../pages/info/list.vue'),
+          },
         },
         {
           path: 'post',
           name: 'info-post',
-          component: () => import('../pages/info/post.vue'),
+          components: {
+            main: () => import('../pages/info/post.vue'),
+          },
         },
       ],
     },
     {
       path: '/res',
       name: 'res',
-      component: () => import('../pages/res/index.vue'),
+      components: {
+        default: Navigation,
+        main: () => import('../pages/res/index.vue'),
+      },
     },
     {
       path: '/group',
       name: 'group',
-      component: () => import('../pages/group/index.vue'),
+      components: {
+        default: Navigation,
+        main: () => import('../pages/group/index.vue'),
+      },
     },
     {
       path: '/report',
       name: 'report',
-      component: () => import('../pages/report/index.vue'),
+      components: {
+        default: Navigation,
+        main: () => import('../pages/report/index.vue'),
+      },
     },
     {
       path: '/project',
       name: 'project',
-      component: () => import('../pages/project/index.vue'),
+      components: {
+        default: Navigation,
+        main: () => import('../pages/project/index.vue'),
+      },
     },
     {
       path: '/stu',
+      component: Navigation,
       children: [
         {
           path: 'list',
           name: 'stu-list',
-          component: () => import('../pages/stu/list.vue'),
+          components: {
+            main: () => import('../pages/stu/list.vue'),
+          },
         },
         {
           path: 'import',
           name: 'stu-import',
-          component: () => import('../pages/stu/import.vue'),
+          components: {
+            main: () => import('../pages/stu/import.vue'),
+          },
         },
       ],
     },

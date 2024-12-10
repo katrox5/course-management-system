@@ -47,7 +47,7 @@
           </el-breadcrumb>
 
           <div class="my-4 p-4 bg-white rounded-md">
-            <slot />
+            <router-view name="main" />
           </div>
         </div>
       </div>
