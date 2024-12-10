@@ -3,12 +3,19 @@
     <!-- 顶部导航栏 -->
     <nav class="flex items-center b-b-solid b-b-gray-3 b-b-[1px] h-18 px-4">
       <div class="flex items-center">
-        <img src="../assets/logo.png" width="48" />
-        <h1 class="ml-4 font-semibold">课程管理系统</h1>
+        <a href="https://www1.szu.edu.cn" target="_blank" class="select-none">
+          <img src="../assets/logo.png" width="48" />
+        </a>
+        <el-button class="ml-4" link @click="$router.push('/')">
+          <h1 class="font-semibold">课程管理系统</h1>
+        </el-button>
       </div>
       <div class="ml-auto flex items-center">
-        <span class="mr-4 text-xl font-medium">黄某</span>
-        <el-avatar />
+        <div>
+          <span class="mr-2 text-[#2678ff] text-xs">老师</span>
+          <span class="mr-3 text-xl font-medium">黄某</span>
+        </div>
+        <el-avatar class="!bg-[#2678ff] !text-xl select-none">王</el-avatar>
       </div>
     </nav>
 
@@ -149,7 +156,7 @@
 </script>
 
 <style>
-  .el-menu .is-active {
+  .el-menu-item.is-active {
     background-color: var(--el-menu-hover-bg-color);
   }
 </style>
