@@ -56,6 +56,8 @@
 </template>
 
 <script setup lang="ts">
+  import { useUserStore } from '@/stores/user'
+
   type Item = {
     label: string
     route: string
@@ -64,6 +66,8 @@
 
   const route = useRoute()
   const router = useRouter()
+  const userStore = useUserStore()
+  const { isAdmin } = storeToRefs(userStore)
 
   function handleSelect(path: string) {
     router.push(path)
@@ -141,8 +145,7 @@
     return [firstItem, secondItem]
   })
 
-  // TODO: 识别用户权限
-  const items = true ? itemsUser : itemsAdmin
+  const items = isAdmin.value ? itemsAdmin : itemsUser
 </script>
 
 <style>
