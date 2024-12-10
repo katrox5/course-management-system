@@ -15,7 +15,23 @@
           <span class="mr-2 text-[#2678ff] text-xs">老师</span>
           <span class="mr-3 text-xl font-medium">黄某</span>
         </div>
-        <el-avatar class="!bg-[#2678ff] !text-xl select-none">王</el-avatar>
+        <div ref="avatarRef" class="relative">
+          <el-avatar
+            :class="[
+              '!bg-[#2678ff] !text-xl select-none transition-all z-2 relative',
+              isAvatarHovered && 'scale-125 translate-y-2',
+            ]"
+            >王</el-avatar
+          >
+          <transition name="pane-fade">
+            <div
+              v-if="isAvatarHovered"
+              class="absolute flex flex-col items-center p-2 w-40 right-0 bg-white rounded-lg top-10 z-1 b-1px b-solid b-gray-2"
+            >
+              <el-button type="info" link icon="ElIconLock">退出登录</el-button>
+            </div>
+          </transition>
+        </div>
       </div>
     </nav>
 
@@ -64,6 +80,7 @@
 
 <script setup lang="ts">
   import { useUserStore } from '@/stores/user'
+  import { useElementHover } from '@vueuse/core'
 
   type Item = {
     label: string
@@ -75,6 +92,9 @@
   const router = useRouter()
   const userStore = useUserStore()
   const { isAdmin } = storeToRefs(userStore)
+
+  const avatarRef = ref<HTMLElement>()
+  const isAvatarHovered = useElementHover(avatarRef)
 
   function handleSelect(path: string) {
     router.push(path)
@@ -165,5 +185,18 @@
   .label {
     user-select: none;
     font-size: 1.125rem;
+  }
+
+  .pane-fade-enter-active,
+  .pane-fade-leave-active {
+    transition:
+      opacity 0.5s,
+      transform 0.3s;
+  }
+
+  .pane-fade-enter-from,
+  .pane-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
   }
 </style>
