@@ -153,6 +153,10 @@
       ],
     },
     {
+      label: '资源管理',
+      route: '/res/manage',
+    },
+    {
       label: '分组管理',
       route: '/group/manage',
     },

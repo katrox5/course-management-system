@@ -46,11 +46,22 @@ const router = createRouter({
     },
     {
       path: '/res',
-      name: 'res',
-      components: {
-        default: Navigation,
-        main: () => import('../pages/res/index.vue'),
-      },
+      component: Navigation,
+      children: [
+        {
+          path: '',
+          name: 'res',
+          components: {
+            main: () => import('../pages/res/index.vue'),
+          },
+        },
+        {
+          path: 'manage',
+          components: {
+            main: () => import('../pages/res/manage.vue'),
+          },
+        },
+      ],
     },
     {
       path: '/group',
