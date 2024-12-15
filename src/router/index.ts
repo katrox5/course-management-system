@@ -57,6 +57,7 @@ const router = createRouter({
         },
         {
           path: 'manage',
+          name: 'res-manage',
           components: {
             main: () => import('../pages/res/manage.vue'),
           },
@@ -76,6 +77,7 @@ const router = createRouter({
         },
         {
           path: 'manage',
+          name: 'group-manage',
           components: {
             main: () => import('../pages/group/manage.vue'),
           },
@@ -95,6 +97,7 @@ const router = createRouter({
         },
         {
           path: 'manage',
+          name: 'report-manage',
           components: {
             main: () => import('../pages/report/manage.vue'),
           },
@@ -114,6 +117,7 @@ const router = createRouter({
         },
         {
           path: 'manage',
+          name: 'project-manage',
           components: {
             main: () => import('../pages/project/manage.vue'),
           },
