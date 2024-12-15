@@ -54,27 +54,60 @@ const router = createRouter({
     },
     {
       path: '/group',
-      name: 'group',
-      components: {
-        default: Navigation,
-        main: () => import('../pages/group/index.vue'),
-      },
+      component: Navigation,
+      children: [
+        {
+          path: '',
+          name: 'group',
+          components: {
+            main: () => import('../pages/group/index.vue'),
+          },
+        },
+        {
+          path: 'manage',
+          components: {
+            main: () => import('../pages/group/manage.vue'),
+          },
+        },
+      ],
     },
     {
       path: '/report',
-      name: 'report',
-      components: {
-        default: Navigation,
-        main: () => import('../pages/report/index.vue'),
-      },
+      component: Navigation,
+      children: [
+        {
+          path: '',
+          name: 'report',
+          components: {
+            main: () => import('../pages/report/index.vue'),
+          },
+        },
+        {
+          path: 'manage',
+          components: {
+            main: () => import('../pages/report/manage.vue'),
+          },
+        },
+      ],
     },
     {
       path: '/project',
-      name: 'project',
-      components: {
-        default: Navigation,
-        main: () => import('../pages/project/index.vue'),
-      },
+      component: Navigation,
+      children: [
+        {
+          path: '',
+          name: 'project',
+          components: {
+            main: () => import('../pages/project/index.vue'),
+          },
+        },
+        {
+          path: 'manage',
+          components: {
+            main: () => import('../pages/project/manage.vue'),
+          },
+        },
+      ],
     },
     {
       path: '/stu',

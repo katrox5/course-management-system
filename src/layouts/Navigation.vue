@@ -154,15 +154,15 @@
     },
     {
       label: '分组管理',
-      route: '/group',
+      route: '/group/manage',
     },
     {
       label: '分享报告管理',
-      route: '/report',
+      route: '/report/manage',
     },
     {
       label: '项目管理',
-      route: '/project',
+      route: '/project/manage',
     },
   ]
 
