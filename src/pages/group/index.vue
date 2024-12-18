@@ -1,276 +1,100 @@
-<script setup lang="ts"></script>
 <template>
-  <!-- 主内容区域 -->
-  <a-layout>
-    <a-layout-content style="margin: 0 16px">
-      <a-breadcrumb style="margin: 16px 0">
-        <a-breadcrumb-item></a-breadcrumb-item>
-      </a-breadcrumb>
-      <div
-        :style="{
-          padding: '24px',
-          background: '#fff',
-          minHeight: '360px',
-        }"
-      >
-        <!-- 第一排 -->
-        <div class="card-row">
-          <el-card class="box-card">
-            <div class="radio-container">
-              <el-radio v-model="checked1" label="1">可选择</el-radio>
-            </div>
-            <div class="group-info">
-              <div class="group-number">组号: 第一组</div>
-              <div class="group-name">组名:</div>
-              <div class="group-leader">组长：</div>
-              <div class="group-member">已选人数：</div>
-              <a-button
-                type="primary"
-                @click="toggleButtonState(1)"
-                :style="{
-                  marginLeft: '200px',
-                  padding:'5px 5px',
-                  color: buttonText1 === '取消选择' ? 'red' : 'white',
-                  backgroundColor: buttonText1 === '取消选择' ? '#ffcccc' : '#2678ff',
-                }"
-              >
-                {{ buttonText1 }}
-              </a-button>
-            </div>
-          </el-card>
-
-          <el-card class="box-card">
-            <div class="radio-container">
-              <el-radio v-model="checked1" label="1">可选择</el-radio>
-            </div>
-            <div class="group-info">
-              <div class="group-number">组号: 第二组</div>
-              <div class="group-name">组名:</div>
-              <div class="group-leader">组长：</div>
-              <div class="group-member">已选人数：</div>
-              <a-button
-                type="primary"
-                @click="toggleButtonState(2)"
-                :style="{
-                  marginLeft: '200px',
-                  padding:'5px 5px',
-                  color: buttonText2 === '取消选择' ? 'red' : 'white',
-                  backgroundColor: buttonText2 === '取消选择' ? '#ffcccc' : '#2678ff',
-                }"
-              >
-                {{ buttonText2 }}
-              </a-button>
-            </div>
-          </el-card>
-
-          <el-card class="box-card">
-            <div class="radio-container">
-              <el-radio v-model="checked1" label="1">可选择</el-radio>
-            </div>
-            <div class="group-info">
-              <div class="group-number">组号: 第三组</div>
-              <div class="group-name">组名:</div>
-              <div class="group-leader">组长：</div>
-              <div class="group-member">已选人数：</div>
-              <a-button
-                type="primary"
-                @click="toggleButtonState(3)"
-                :style="{
-                  marginLeft: '200px',
-                  padding:'5px 5px',
-                  color: buttonText3 === '取消选择' ? 'red' : 'white',
-                  backgroundColor: buttonText3 === '取消选择' ? '#ffcccc' : '#2678ff',
-                }"
-              >
-                {{ buttonText3 }}
-              </a-button>
-            </div>
-          </el-card>
+    <div class="group-management">
+      <div v-for="group in groups" :key="group.id" class="group-card">
+        <div class="group-header">
+          <span>{{ group.name }}</span>
+          <button @click="selectGroup(group)" class="select-button">选择</button>
         </div>
-
-        <!-- 第二排 -->
-        <div class="card-row">
-          <el-card class="box-card">
-            <div class="radio-container">
-              <el-radio v-model="checked1" label="1">可选择</el-radio>
-            </div>
-            <div class="group-info">
-              <div class="group-number">组号: 第四组</div>
-              <div class="group-name">组名:</div>
-              <div class="group-leader">组长：</div>
-              <div class="group-member">已选人数：</div>
-              <a-button
-                type="primary"
-                @click="toggleButtonState(4)"
-                :style="{
-                  marginLeft: '200px',
-                  padding:'5px 5px',
-                  color: buttonText4 === '取消选择' ? 'red' : 'white',
-                  backgroundColor: buttonText4 === '取消选择' ? '#ffcccc' : '#2678ff',
-                }"
-              >
-                {{ buttonText4 }}
-              </a-button>
-            </div>
-          </el-card>
-
-          <el-card class="box-card">
-            <div class="radio-container">
-              <el-radio v-model="checked1" label="1">可选择</el-radio>
-            </div>
-            <div class="group-info">
-              <div class="group-number">组号: 第五组</div>
-              <div class="group-name">组名:</div>
-              <div class="group-leader">组长：</div>
-              <div class="group-member">已选人数：</div>
-              <a-button
-                type="primary"
-                @click="toggleButtonState(5)"
-                :style="{
-                  marginLeft: '200px',
-                  padding:'5px 5px',
-                  color: buttonText5 === '取消选择' ? 'red' : 'white',
-                  backgroundColor: buttonText5 === '取消选择' ? '#ffcccc' : '#2678ff',
-                }"
-              >
-                {{ buttonText5 }}
-              </a-button>
-            </div>
-          </el-card>
-
-          <el-card class="box-card">
-            <div class="radio-container">
-              <el-radio v-model="checked1" label="1">可选择</el-radio>
-            </div>
-            <div class="group-info">
-              <div class="group-number">组号: 第六组</div>
-              <div class="group-name">组名:</div>
-              <div class="group-leader">组长：</div>
-              <div class="group-member">已选人数：</div>
-              <a-button
-                type="primary"
-                @click="toggleButtonState(6)"
-                :style="{
-                  marginLeft: '200px',
-                  padding:'5px 5px',
-                  color: buttonText6 === '取消选择' ? 'red' : 'white',
-                  backgroundColor: buttonText6 === '取消选择' ? '#ffcccc' : '#2678ff',
-                }"
-              >
-                {{ buttonText6 }}
-              </a-button>
-            </div>
-          </el-card>
-        </div>
-
-        <!-- 第三排 -->
-        <div class="card-row">
-          <el-card class="box-card">
-            <div class="radio-container">
-              <el-radio v-model="checked1" label="1">可选择</el-radio>
-            </div>
-            <div class="group-info">
-              <div class="group-number">组号: 第七组</div>
-              <div class="group-name">组名:</div>
-              <div class="group-leader">组长：</div>
-              <div class="group-member">已选人数：</div>
-              <a-button
-                type="primary"
-                @click="toggleButtonState(7)"
-                :style="{
-                  marginLeft: '200px',
-                  padding:'5px 5px',
-                  color: buttonText7 === '取消选择' ? 'red' : 'white',
-                  backgroundColor: buttonText7 === '取消选择' ? '#ffcccc' : '#2678ff',
-                }"
-              >
-                {{ buttonText7 }}
-              </a-button>
-            </div>
-          </el-card>
+        <div class="group-details">
+          <p>组号：{{ group.groupNumber }}</p>
+          <p>组长：{{ group.leader }}</p>
+          <p>已选人数：{{ group.selectedCount }}/{{ group.totalCount }}</p>
         </div>
       </div>
-    </a-layout-content>
-  </a-layout>
-</template>
-
-<script lang="ts">
-  import { defineComponent, ref } from 'vue'
-
-  export default defineComponent({
-    setup() {
-      const checked1 = ref('1') // 默认选中项
-      const buttonText1 = ref('确定选择')
-      const buttonText2 = ref('确定选择')
-      const buttonText3 = ref('确定选择')
-      const buttonText4 = ref('确定选择')
-      const buttonText5 = ref('确定选择')
-      const buttonText6 = ref('确定选择')
-      const buttonText7 = ref('确定选择')
-
-      // 切换按钮文本状态
-      const toggleButtonState = (groupId: number) => {
-        switch(groupId) {
-          case 1:
-            buttonText1.value = buttonText1.value === '确定选择' ? '取消选择' : '确定选择'
-            break
-          case 2:
-            buttonText2.value = buttonText2.value === '确定选择' ? '取消选择' : '确定选择'
-            break
-          case 3:
-            buttonText3.value = buttonText3.value === '确定选择' ? '取消选择' : '确定选择'
-            break
-          case 4:
-            buttonText4.value = buttonText4.value === '确定选择' ? '取消选择' : '确定选择'
-            break
-          case 5:
-            buttonText5.value = buttonText5.value === '确定选择' ? '取消选择' : '确定选择'
-            break
-          case 6:
-            buttonText6.value = buttonText6.value === '确定选择' ? '取消选择' : '确定选择'
-            break
-          case 7:
-            buttonText7.value = buttonText7.value === '确定选择' ? '取消选择' : '确定选择'
-            break
-        }
-      }
-
-      return {
-        checked1,
-        buttonText1,
-        buttonText2,
-        buttonText3,
-        buttonText4,
-        buttonText5,
-        buttonText6,
-        buttonText7,
-        toggleButtonState
-      }
-    }
-  })
-</script>
-
-<style scoped>
-  .card-row {
+    </div>
+  </template>
+  
+  <script setup lang="ts">
+  import { ref } from 'vue';
+  
+  // 示例数据
+  const groups = ref([
+    {
+      id: 1,
+      name: '第一组',
+      groupNumber: '一号',
+      leader: '吴彦祖',
+      selectedCount: 7,
+      totalCount: 8,
+    },
+    {
+      id: 2,
+      name: '第二组',
+      groupNumber: '二号',
+      leader: '李二',
+      selectedCount: 7,
+      totalCount: 8,
+    },
+    {
+      id: 3,
+      name: '第三组',
+      groupNumber: '三号',
+      leader: '王五',
+      selectedCount: 6,
+      totalCount: 8,
+    },
+    {
+      id: 4,
+      name: '第四组',
+      groupNumber: '四号',
+      leader: '赵六',
+      selectedCount: 5,
+      totalCount: 8,
+    },
+  ]);
+  
+  function selectGroup(group) {
+    alert(`选择了 ${group.name}`);
+  }
+  </script>
+  
+  <style scoped>
+  .group-management {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .group-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .group-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 0.5rem;
   }
-
-  .box-card {
-    background-color: #f4f3f3;
-    width: 30%; /* 控制每个卡片的宽度，三列展示 */
+  
+  .group-details {
+    margin-top: 1rem;
   }
-
-  .radio-container {
-    margin-bottom: 10px;
+  
+  .select-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
-
-  .group-info {
-    margin-top: 10px;
+  
+  .select-button:hover {
+    background-color: #0056b3;
   }
-
-  .group-number, .group-name, .group-leader {
-    margin: 5px 0;
-  }
-</style>
+  </style>
