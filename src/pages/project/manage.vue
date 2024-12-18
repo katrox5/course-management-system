@@ -1,12 +1,7 @@
 <template>
   <el-card>
     <h2>资源管理</h2>
-    <el-upload
-      action="#"
-      :on-success="handleSuccess"
-      :on-preview="handlePreview"
-      list-type="text"
-    >
+    <el-upload action="#" :on-success="handleSuccess" :on-preview="handlePreview" list-type="text">
       <el-button type="primary">上传资源</el-button>
     </el-upload>
 
@@ -19,25 +14,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+  import { ref, onMounted } from 'vue'
+  import axios from 'axios'
 
-const resources = ref([]);
+  const resources = ref([])
 
-const fetchResources = async () => {
-  const response = await axios.get('/api/resources'); // 假设后端 API
-  resources.value = response.data;
-};
+  const fetchResources = async () => {
+    const response = await axios.get('/api/resources') // 假设后端 API
+    resources.value = response.data
+  }
 
-const handleSuccess = () => {
-  fetchResources();
-};
+  const handleSuccess = () => {
+    fetchResources()
+  }
 
-const handlePreview = (file: any) => {
-  window.open(file.url);
-};
+  const handlePreview = (file: any) => {
+    window.open(file.url)
+  }
 
-onMounted(() => {
-  fetchResources();
-});
+  onMounted(() => {
+    fetchResources()
+  })
 </script>
