@@ -3,9 +3,7 @@
     <!-- 顶部导航栏 -->
     <nav class="flex items-center b-b-solid b-b-gray-3 b-b-[1px] h-18 px-4">
       <div class="flex items-center">
-        <a href="https://www1.szu.edu.cn" target="_blank" class="select-none">
-          <img src="../assets/logo.png" width="40" />
-        </a>
+        <img class="select-none" src="../assets/logo.png" width="40" />
         <el-button class="ml-4" link @click="$router.push('/')">
           <h1 class="font-semibold text-2xl">课程管理系统</h1>
         </el-button>
