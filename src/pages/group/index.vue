@@ -1,22 +1,35 @@
 <template>
-    <div class="group-management">
-      <div v-for="group in groups" :key="group.id" class="group-card">
-        <div class="group-header">
-          <span>{{ group.name }}</span>
-          <button @click="selectGroup(group)" class="select-button">选择</button>
+  <div class="grid gap-2 group__cards">
+    <template v-for="item, index in groups">
+      <el-card shadow="hover" class="w-[250px] h-[180px] !bg-[#f4f3f3]" body-class="!p-3">
+        <div class="flex items-center gap-x-2">
+          <el-icon :color="item ? '#67c23a' : '#409eff'">
+            <el-icon-success-filled v-if="item" />
+            <el-icon-info-filled v-else />
+          </el-icon>
+          <span class="text-sm font-medium"> {{ item ? '已' : '可' }}选择 </span>
         </div>
-        <div class="group-details">
-          <p>组号：{{ group.groupNumber }}</p>
-          <p>组长：{{ group.leader }}</p>
-          <p>已选人数：{{ group.selectedCount }}/{{ group.totalCount }}</p>
+        <div class="flex flex-col text-sm text-gray-5 pl-6 py-3">
+          <span>组号：第一组</span>
+          <span>组名：吴彦祖</span>
+          <span>组长：李一</span>
+          <span>已选人数：7/8</span>
         </div>
-      </div>
-    </div>
-  </template>
-  
-  <script setup lang="ts">
-  import { ref } from 'vue';
-  
+        <div class="flex flex-row-reverse">
+          <el-button
+            :type="item ? 'danger' : 'primary'"
+            class="flex ml-auto"
+            @click="selectGroup(item, index)"
+          >
+            {{ item ? '取消' : '确认' }}选择
+          </el-button>
+        </div>
+      </el-card>
+    </template>
+  </div>
+</template>
+
+<script setup lang="ts">
   // 示例数据
   const groups = ref([
     {
@@ -51,50 +64,15 @@
       selectedCount: 5,
       totalCount: 8,
     },
-  ]);
-  
-  function selectGroup(group) {
-    alert(`选择了 ${group.name}`);
+  ])
+
+  function selectGroup(group: any, index: number) {
+    alert(`选择了 ${group.name}`)
   }
-  </script>
-  
-  <style scoped>
-  .group-management {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+</script>
+
+<style scoped>
+  .group__cards {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
-  
-  .group-card {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .group-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-  }
-  
-  .group-details {
-    margin-top: 1rem;
-  }
-  
-  .select-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .select-button:hover {
-    background-color: #0056b3;
-  }
-  </style>
+</style>
