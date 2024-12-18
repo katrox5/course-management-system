@@ -5,7 +5,7 @@
       <h3>第{{ num2Cn(week + 1) }}周</h3>
       <div class="grid gap-2 report__cards">
         <template v-for="(item, index) in slot">
-          <el-card shadow="hover" class="w-[250px] h-[130px] !bg-[#f4f3f3]" body-class="!p-3">
+          <el-card shadow="hover" class="w-[250px] !bg-[#f4f3f3]" body-class="!p-3">
             <div class="flex items-center gap-x-2">
               <el-icon :color="item ? '#67c23a' : '#409eff'">
                 <el-icon-success-filled v-if="item" />
