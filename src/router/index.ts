@@ -135,13 +135,6 @@ const router = createRouter({
             main: () => import('../pages/stu/list.vue'),
           },
         },
-        {
-          path: 'import',
-          name: 'stu-import',
-          components: {
-            main: () => import('../pages/stu/import.vue'),
-          },
-        },
       ],
     },
   ],

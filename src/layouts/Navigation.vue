@@ -130,10 +130,6 @@
           label: '学生列表',
           route: '/list',
         },
-        {
-          label: '批量导入',
-          route: '/import',
-        },
       ],
     },
     {

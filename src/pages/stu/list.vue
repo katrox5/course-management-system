@@ -32,10 +32,7 @@
   </div>
 
   <div class="mt-4">
-    <div class="flex mb-4">
-      <el-button type="primary" icon="ElIconPlus" @click="openDialog">新建</el-button>
-      <el-button type="info" plain>批量导入</el-button>
-    </div>
+    <el-button type="primary" icon="ElIconPlus" @click="openDialog">新建</el-button>
     <el-table stripe :data="tableData">
       <el-table-column prop="userId" label="编号" />
       <el-table-column prop="username" label="学号" />
