@@ -33,7 +33,7 @@
 
   <!-- 表格区域 -->
   <div class="mt-4">
-    <el-button class="mb-4" type="primary" @click="openDialog">+ 新建</el-button>
+    <el-button class="mb-4" type="primary" icon="ElIconPlus" @click="openDialog">新建</el-button>
     <el-table :data="tableData" stripe border>
       <el-table-column prop="number" label="编号" width="100" />
       <el-table-column label="图片" width="120">
@@ -83,7 +83,7 @@
         </el-form-item>
         <el-form-item label="图片">
           <el-upload class="upload-demo" action="#" list-type="picture-card">
-            <el-icon><Plus /></el-icon>
+            <el-icon><el-icon-plus /></el-icon>
           </el-upload>
         </el-form-item>
       </el-form>
@@ -105,8 +105,6 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-
   const form = ref({
     number: '',
     title: '',
