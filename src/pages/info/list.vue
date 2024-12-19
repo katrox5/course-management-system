@@ -10,11 +10,7 @@
           <el-input v-model="form.title" placeholder="请输入标题" />
         </el-form-item>
         <el-form-item label="时间">
-          <el-date-picker
-              v-model="form.date"
-              type="date"
-              placeholder="请选择时间"
-          />
+          <el-date-picker v-model="form.date" type="date" placeholder="请选择时间" />
         </el-form-item>
         <el-form-item label="班级">
           <el-input v-model="form.class" placeholder="请输入班级" />
@@ -66,12 +62,7 @@
         </el-table-column>
       </el-table>
 
-      <el-dialog
-          v-model="dialogVisible"
-          title="编辑信息"
-          width="600px"
-          @close="closeDialog"
-      >
+      <el-dialog v-model="dialogVisible" title="编辑信息" width="600px" @close="closeDialog">
         <!-- 弹窗内容区域 -->
         <el-form label-width="100px">
           <el-form-item label="标题">
@@ -82,19 +73,15 @@
           </el-form-item>
           <el-form-item label="有效期">
             <el-date-picker
-                v-model="date"
-                type="daterange"
-                range-separator="到"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
+              v-model="date"
+              type="daterange"
+              range-separator="到"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
             />
           </el-form-item>
           <el-form-item label="图片">
-            <el-upload
-                class="upload-demo"
-                action="#"
-                list-type="picture-card"
-            >
+            <el-upload class="upload-demo" action="#" list-type="picture-card">
               <el-icon><Plus /></el-icon>
             </el-upload>
           </el-form-item>
@@ -108,111 +95,117 @@
       </el-dialog>
       <!-- 分页控件 -->
       <el-pagination
-          layout="prev, pager, next"
-          :total="50"
-          class="pagination"
-          @current-change="onPageChange"
+        layout="prev, pager, next"
+        :total="50"
+        class="pagination"
+        @current-change="onPageChange"
       />
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const form = ref({
-  number: '',
-  title: '',
-  class: '',
-  status: '',
-  date: null
-})
+  const form = ref({
+    number: '',
+    title: '',
+    class: '',
+    status: '',
+    date: null,
+  })
 
-const tableData = ref([
-  { number: '01', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '已发送' },
-  { number: '02', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '过期' },
-  { number: '03', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '标签' },
-  { number: '04', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '标签' },
-  { number: '06', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '标签' }
-])
+  const tableData = ref([
+    {
+      number: '01',
+      title: '班级群-微信邀请码',
+      date: '2024-10-15',
+      class: '一班',
+      status: '已发送',
+    },
+    { number: '02', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '过期' },
+    { number: '03', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '标签' },
+    { number: '04', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '标签' },
+    { number: '06', title: '班级群-微信邀请码', date: '2024-10-15', class: '一班', status: '标签' },
+  ])
 
-const onSearch = () => {
-  console.log('查询表单:', form.value)
-}
+  const onSearch = () => {
+    console.log('查询表单:', form.value)
+  }
 
-const onReset = () => {
-  form.value = { number: '', title: '', class: '', status: '', date: null }
-}
+  const onReset = () => {
+    form.value = { number: '', title: '', class: '', status: '', date: null }
+  }
 
-const onAdd = () => {
-  console.log('新增一条记录')
-}
+  const onAdd = () => {
+    console.log('新增一条记录')
+  }
 
-const onPageChange = (page: number) => {
-  console.log('当前页:', page)
-}
+  const onPageChange = (page: number) => {
+    console.log('当前页:', page)
+  }
 
-// 控制弹窗显示/隐藏
-const dialogVisible = ref(false);
+  // 控制弹窗显示/隐藏
+  const dialogVisible = ref(false)
 
-// 打开弹窗
-const openDialog = () => {
-  dialogVisible.value = true;
-};
+  // 打开弹窗
+  const openDialog = () => {
+    dialogVisible.value = true
+  }
 
-// 关闭弹窗
-const closeDialog = () => {
-  dialogVisible.value = false;
-};
+  // 关闭弹窗
+  const closeDialog = () => {
+    dialogVisible.value = false
+  }
 </script>
 
 <style scoped>
-.info-list-container {
-  padding: 20px;
-  background-color: #f5f5f5;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
+  .info-list-container {
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
 
-.custom-title {
-  font-size: 11px;
-  color: #333; /* 可选：设置文字颜色 */
-}
+  .custom-title {
+    font-size: 11px;
+    color: #333; /* 可选：设置文字颜色 */
+  }
 
-.search-card {
-  margin-bottom: 20px;
-}
+  .search-card {
+    margin-bottom: 20px;
+  }
 
-.table-card {
-  padding: 20px;
-}
+  .table-card {
+    padding: 20px;
+  }
 
-.add-button {
-  margin-bottom: 10px;
-}
+  .add-button {
+    margin-bottom: 10px;
+  }
 
-.pagination {
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-/*使查询和重置按钮右对齐 */
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  /*使查询和重置按钮右对齐 */
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
 
-.el-dialog__body {
-  padding: 20px;
-}
+  .el-dialog__body {
+    padding: 20px;
+  }
 
-.el-upload--picture-card {
-  width: 100%;
-  text-align: center;
-}
+  .el-upload--picture-card {
+    width: 100%;
+    text-align: center;
+  }
 
-.el-form-item {
-  margin-bottom: 20px;
-}
+  .el-form-item {
+    margin-bottom: 20px;
+  }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="grid gap-2 group__cards">
-    <template v-for="item, index in groups">
+    <template v-for="(item, index) in groups">
       <el-card shadow="hover" class="w-[250px] !bg-[#f4f3f3]" body-class="!p-3">
         <div class="flex items-center gap-x-2">
           <el-icon :color="item ? '#67c23a' : '#409eff'">
