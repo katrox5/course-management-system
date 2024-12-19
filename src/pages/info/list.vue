@@ -1,6 +1,6 @@
 <template>
   <!-- 表单区域 -->
-  <div class="search-card b-b-solid b-b-[#f4f3f3]">
+  <div class="b-b-solid b-b-[#f4f3f3]">
     <h3 class="mb-4">信息列表</h3>
     <el-form :model="form">
       <div class="grid gap-4" style="grid-template-columns: repeat(3, 1fr) auto">
@@ -32,7 +32,7 @@
   </div>
 
   <!-- 表格区域 -->
-  <div class="table-card">
+  <div class="mt-4">
     <el-button class="mb-4" type="primary" @click="openDialog">+ 新建</el-button>
     <el-table :data="tableData" stripe border>
       <el-table-column prop="number" label="编号" width="100" />
@@ -163,14 +163,6 @@
   .custom-title {
     font-size: 11px;
     color: #333; /* 可选：设置文字颜色 */
-  }
-
-  .search-card {
-    padding: 20px;
-  }
-
-  .table-card {
-    padding: 20px;
   }
 
   .add-button {
