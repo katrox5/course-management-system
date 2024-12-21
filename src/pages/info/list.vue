@@ -158,11 +158,6 @@
 </script>
 
 <style scoped>
-  .custom-title {
-    font-size: 11px;
-    color: #333; /* 可选：设置文字颜色 */
-  }
-
   .add-button {
     margin-bottom: 10px;
   }
