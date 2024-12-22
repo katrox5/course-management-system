@@ -1,0 +1,114 @@
+<template>
+  <div class="b-b-solid b-b-[#f4f3f3]">
+    <h3 class="mb-4">资源列表</h3>
+    <el-form :model="form">
+      <div class="grid gap-4" style="grid-template-columns: repeat(3, 1fr) auto">
+        <el-form-item label="编号">
+          <el-input v-model="form.announcement_id" placeholder="请输入编号" />
+        </el-form-item>
+        <el-form-item label="标题">
+          <el-input v-model="form.title" placeholder="请输入标题" />
+        </el-form-item>
+        <el-form-item label="内容">
+          <el-input v-model="form.content" placeholder="请输入班级" />
+        </el-form-item>
+        <div />
+        <el-form-item label="创建者">
+          <el-input v-model="form.created_by" placeholder="请输入班级" />
+        </el-form-item>
+        <el-form-item label="创建时间">
+          <el-date-picker v-model="form.created_at" type="date" placeholder="请选择时间" />
+        </el-form-item>
+        <div />
+        <el-button @click="onReset">重置</el-button>
+      </div>
+    </el-form>
+  </div>
+
+  <div class="mt-4">
+    <el-table
+      :data="tableData.slice(pageIndex * PageSize, (pageIndex + 1) * PageSize)"
+      stripe
+      border
+    >
+      <el-table-column prop="announcement_id" label="编号" width="100" />
+      <el-table-column prop="title" label="标题" />
+      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="created_by" label="创建者" width="100" />
+      <el-table-column prop="created_at" label="创建时间" width="120">
+        <template #default="{ row }">
+          {{ new Date(row.created_at).toLocaleDateString() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="80">
+        <template #default="{ row }">
+          <el-button icon="ElIconDelete" type="danger" link @click="deleteItem(row)" title="删除" />
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-pagination
+      layout="prev, pager, next"
+      :page-size="PageSize"
+      :total="tableData.length"
+      class="mt-4 flex flex-justify-end"
+      @current-change="(page) => (pageIndex = page - 1)"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+  import { ElMessage } from 'element-plus'
+
+  const PageSize = 10
+  const pageIndex = ref(0)
+
+  type modelData = {
+    announcement_id: string
+    title: string
+    content: string
+    created_by: string | null
+    created_at: Date | null
+  }
+
+  function requestData() {
+    fetch('/dev/res/list', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+    })
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error))
+  }
+  onMounted(requestData)
+
+  const form = ref<modelData>({
+    announcement_id: '',
+    title: '',
+    content: '',
+    created_by: null,
+    created_at: null,
+  })
+
+  const tableData = ref<modelData[]>([])
+
+  const onReset = () => {
+    form.value = { announcement_id: '', title: '', content: '', created_by: null, created_at: null }
+  }
+
+  function deleteItem(item: any) {
+    const id = item.announcement_id
+    fetch(`/dev/info/${id}`, {
+      method: 'DELETE',
+      redirect: 'follow',
+    })
+      .then(() => {
+        ElMessage.success('删除成功')
+        requestData()
+      })
+      .catch((error) => console.warn(error))
+  }
+</script>
