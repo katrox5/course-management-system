@@ -56,10 +56,17 @@ const router = createRouter({
           },
         },
         {
-          path: 'manage',
-          name: 'res-manage',
+          path: 'post',
+          name: 'res-post',
           components: {
-            main: () => import('../pages/res/manage.vue'),
+            main: () => import('../pages/res/post.vue'),
+          },
+        },
+        {
+          path: 'list',
+          name: 'res-list',
+          components: {
+            main: () => import('../pages/res/list.vue'),
           },
         },
       ],
@@ -116,10 +123,17 @@ const router = createRouter({
           },
         },
         {
-          path: 'manage',
-          name: 'project-manage',
+          path: 'task',
+          name: 'project-task',
           components: {
-            main: () => import('../pages/project/manage.vue'),
+            main: () => import('../pages/project/task.vue'),
+          },
+        },
+        {
+          path: 'repo',
+          name: 'project-repo',
+          components: {
+            main: () => import('../pages/project/repo.vue'),
           },
         },
       ],

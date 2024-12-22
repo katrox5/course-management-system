@@ -148,7 +148,17 @@
     },
     {
       label: '资源管理',
-      route: '/res/manage',
+      route: '/res',
+      children: [
+        {
+          label: '资源列表',
+          route: '/list',
+        },
+        {
+          label: '资源发布',
+          route: '/post',
+        },
+      ],
     },
     {
       label: '分组管理',
@@ -160,7 +170,17 @@
     },
     {
       label: '项目管理',
-      route: '/project/manage',
+      route: '/project',
+      children: [
+        {
+          label: '任务管理',
+          route: '/task',
+        },
+        {
+          label: '代码仓库',
+          route: '/repo',
+        },
+      ],
     },
   ]
 
