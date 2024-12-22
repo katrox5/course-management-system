@@ -1,6 +1,9 @@
 <script setup lang="ts">
   // import { useUserStore } from '@/stores/user'
+  import { useMousePressed } from '@vueuse/core'
   import { type FormInstance, type FormRules } from 'element-plus'
+  // @ts-ignore
+  import QRCode from 'qrcode'
 
   // const userStore = useUserStore()
   // const router = useRouter()
@@ -49,11 +52,25 @@
     captcha: [{ message: '请输入验证码', trigger: 'change' }],
   }
 
+  const captcha = ref('')
+  const { pressed } = useMousePressed()
+  watch(pressed, () => (qrcodeVisible.value = false))
+  const qrcodeVisible = ref(false)
+  const qrcodeDataUrl = ref('')
+
   function requestCaptcha() {
     totpFormRef.value?.validate(async (valid) => {
       if (!valid) return
+      captcha.value = String(Math.floor(Math.random() * 1000000))
+      QRCode.toDataURL(captcha.value, {
+        color: {
+          light: '#ffffff',
+        },
+      }).then((url: string) => {
+        qrcodeDataUrl.value = url
+        qrcodeVisible.value = true
+      })
     })
-    // TODO: 获取验证码
   }
 
   function totpLogin() {
@@ -135,7 +152,12 @@
               @keydown.enter="totpLogin"
             />
           </el-form-item>
-          <el-button type="primary" @click="requestCaptcha">获取验证码</el-button>
+          <el-popover :visible="qrcodeVisible" trigger="click">
+            <img :src="qrcodeDataUrl" alt="验证码" />
+            <template #reference>
+              <el-button type="primary" @click="requestCaptcha">获取验证码</el-button>
+            </template>
+          </el-popover>
         </div>
         <el-button type="primary" :disabled="loading" :loading @click="totpLogin"> 登录 </el-button>
         <div class="flex flex-row-reverse mt-4">
