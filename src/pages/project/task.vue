@@ -143,7 +143,7 @@
   onMounted(requestData)
 
   function deleteItem(item: ModelData) {
-    fetch(`/dev/task/${item.task_id}`, {
+    fetch(`/dev/tasks/${item.task_id}`, {
       method: 'DELETE',
       redirect: 'follow',
     })
