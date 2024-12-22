@@ -32,11 +32,11 @@
   })
 
   function submitForm() {
-    var myHeaders = new Headers()
-    myHeaders.append('Content-Type', 'application/json')
     fetch('/dev/info/post', {
       method: 'POST',
-      headers: myHeaders,
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         ...form,
         createdBy: 1,

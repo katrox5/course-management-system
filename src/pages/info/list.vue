@@ -63,7 +63,7 @@
   const PageSize = 10
   const pageIndex = ref(0)
 
-  type modelData = {
+  type ModelData = {
     announcement_id: string
     title: string
     content: string
@@ -85,7 +85,7 @@
   }
   onMounted(requestData)
 
-  const form = ref<modelData>({
+  const form = ref<ModelData>({
     announcement_id: '',
     title: '',
     content: '',
@@ -93,7 +93,7 @@
     created_at: null,
   })
 
-  const tableData = ref<modelData[]>([])
+  const tableData = ref<ModelData[]>([])
 
   const onReset = () => {
     form.value = { announcement_id: '', title: '', content: '', created_by: null, created_at: null }
