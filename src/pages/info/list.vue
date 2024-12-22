@@ -119,7 +119,7 @@
     form.created_at = ''
   }
 
-  function deleteItem(item: any) {
+  function deleteItem(item: ModelData) {
     const id = item.announcement_id
     fetch(`/dev/info/${id}`, {
       method: 'DELETE',

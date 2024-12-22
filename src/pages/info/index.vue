@@ -1,14 +1,13 @@
 <style>
   .block:not(:first-child) {
-    padding-top: 16px;
     border-top: 1px solid lightgray;
   }
 </style>
 
 <template>
-  <div class="flex flex-col gap-y-4">
+  <div class="flex flex-col">
     <template v-for="item in listData">
-      <div class="flex gap-x-8 block">
+      <div class="flex gap-x-8 pl-4 py-8 block">
         <el-icon size="48" color="gray">
           <el-icon-document />
         </el-icon>
