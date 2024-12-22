@@ -28,4 +28,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/dev': {
+        target: 'http://172.29.18.40:8080',
+        rewrite: (path) => path.replace(/^\/dev/, ''),
+        changeOrigin: true,
+      },
+      '/git': {
+        target: 'https://github.com/',
+        rewrite: (path) => path.replace(/^\/git/, ''),
+        changeOrigin: true,
+      },
+    },
+  },
 })
