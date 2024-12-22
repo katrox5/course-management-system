@@ -20,14 +20,14 @@
           <el-date-picker v-model="form.created_at" type="date" placeholder="请选择时间" />
         </el-form-item>
         <div />
-        <el-button @click="onReset">重置</el-button>
+        <el-button @click="resetForm">重置</el-button>
       </div>
     </el-form>
   </div>
 
   <div class="mt-4">
     <el-table
-      :data="tableData.slice(pageIndex * PageSize, (pageIndex + 1) * PageSize)"
+      :data="tableDataFilter.slice(pageIndex * PageSize, (pageIndex + 1) * PageSize)"
       stripe
       border
     >
@@ -50,7 +50,7 @@
     <el-pagination
       layout="prev, pager, next"
       :page-size="PageSize"
-      :total="tableData.length"
+      :total="tableDataFilter.length"
       class="mt-4 flex flex-justify-end"
       @current-change="(page) => (pageIndex = page - 1)"
     />
@@ -64,11 +64,11 @@
   const pageIndex = ref(0)
 
   type ModelData = {
-    announcement_id: string
+    announcement_id: number | undefined
     title: string
     content: string
     created_by: string | null
-    created_at: Date | null
+    created_at: string
   }
 
   function requestData() {
@@ -85,18 +85,38 @@
   }
   onMounted(requestData)
 
-  const form = ref<ModelData>({
-    announcement_id: '',
+  const form = reactive<ModelData>({
+    announcement_id: undefined,
     title: '',
     content: '',
     created_by: null,
-    created_at: null,
+    created_at: '',
   })
 
   const tableData = ref<ModelData[]>([])
+  const tableDataFilter = computed(() => {
+    return tableData.value.filter((item) => {
+      return (
+        (!form.announcement_id ||
+          String(item.announcement_id).includes(String(form.announcement_id))) &&
+        (!form.title || item.title.includes(form.title)) &&
+        (!form.content || item.content.includes(form.content)) &&
+        (!form.created_by || item.created_by?.includes(form.created_by)) &&
+        (!form.created_at ||
+          new Date(item.created_at)
+            .toLocaleDateString()
+            // @ts-ignore
+            .includes(form.created_at.toLocaleDateString()))
+      )
+    })
+  })
 
-  const onReset = () => {
-    form.value = { announcement_id: '', title: '', content: '', created_by: null, created_at: null }
+  function resetForm() {
+    form.announcement_id = undefined
+    form.title = ''
+    form.content = ''
+    form.created_by = null
+    form.created_at = ''
   }
 
   function deleteItem(item: any) {
