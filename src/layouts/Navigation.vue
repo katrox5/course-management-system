@@ -26,7 +26,7 @@
               v-if="isAvatarHovered"
               class="absolute flex flex-col items-center p-2 w-40 right-0 bg-white rounded-lg top-10 z-1 b-1px b-solid b-gray-2"
             >
-              <el-button type="info" link icon="ElIconLock">退出登录</el-button>
+              <el-button type="info" link icon="ElIconLock" @click="logout">退出登录</el-button>
             </div>
           </transition>
         </div>
@@ -89,13 +89,17 @@
   const route = useRoute()
   const router = useRouter()
   const userStore = useUserStore()
-  const { isAdmin } = storeToRefs(userStore)
+  const { userInfo, isAdmin } = storeToRefs(userStore)
 
   const avatarRef = ref<HTMLElement>()
   const isAvatarHovered = useElementHover(avatarRef)
 
   function handleSelect(path: string) {
     router.push(path)
+  }
+
+  function logout() {
+    userInfo.value = null
   }
 
   const itemsUser: Item[] = [

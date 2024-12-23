@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  // import { useUserStore } from '@/stores/user'
+  import { useUserStore } from '@/stores/user'
   import { useMousePressed } from '@vueuse/core'
-  import { type FormInstance, type FormRules } from 'element-plus'
+  import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
   // @ts-ignore
   import QRCode from 'qrcode'
 
-  // const userStore = useUserStore()
-  // const router = useRouter()
+  const userStore = useUserStore()
+  const router = useRouter()
 
   const formRef = ref<FormInstance>()
   const form = reactive({
@@ -23,19 +23,21 @@
     formRef.value?.validate(async (valid) => {
       if (!valid) return
       loading.value = true
-      try {
-        // TODO: login
-        // userStore.token = resp.token
-        // ElMessage({ type: 'success', message: '登录成功' })
-        // if (router.currentRoute.value.query.redirect) {
-        //   router.push(router.currentRoute.value.query.redirect as string)
-        // } else {
-        //   router.push('/')
-        // }
-      } catch (error: any) {
-      } finally {
-        loading.value = false
-      }
+      fetch(`/dev/login?username=${form.username}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          userStore.userInfo = result
+          router.push('/')
+          ElMessage.success('登录成功')
+        })
+        .catch((error) => console.warn(error))
+      loading.value = false
     })
   }
 
@@ -76,20 +78,27 @@
   function totpLogin() {
     totpFormRef.value?.validate(async (valid) => {
       if (!valid) return
-      loading.value = true
-      try {
-        // TODO: totpLogin
-        // userStore.token = resp.token
-        // ElMessage({ type: 'success', message: '登录成功' })
-        // if (router.currentRoute.value.query.redirect) {
-        //   router.push(router.currentRoute.value.query.redirect as string)
-        // } else {
-        //   router.push('/')
-        // }
-      } catch (error: any) {
-      } finally {
-        loading.value = false
+      if (!captcha.value || captcha.value !== totpForm.captcha) {
+        ElMessage.error('验证码错误')
+        totpForm.captcha = ''
+        return
       }
+      loading.value = true
+      fetch(`/dev/login?username=${totpForm.username}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          userStore.userInfo = result
+          router.push('/')
+          ElMessage.success('登录成功')
+        })
+        .catch((error) => console.warn(error))
+      loading.value = false
     })
   }
 </script>
