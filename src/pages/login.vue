@@ -30,9 +30,13 @@
         },
         redirect: 'follow',
       })
-        .then((response) => response.json())
+        .then((response) => response.text())
         .then((result) => {
-          userStore.userInfo = result
+          if (!result) {
+            ElMessage.error('账号或密码错误')
+            return
+          }
+          userStore.userInfo = JSON.parse(result)
           router.push('/')
           ElMessage.success('登录成功')
         })

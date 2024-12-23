@@ -10,8 +10,10 @@
       </div>
       <div class="ml-auto flex items-center">
         <div>
-          <span class="mr-2 text-[#2678ff] text-xs">老师</span>
-          <span class="mr-3 text-xl font-medium">黄某</span>
+          <span class="mr-2 text-[#2678ff] text-xs">{{
+            userInfo.role == 2 ? '管理员' : userInfo.role ? '组长' : '组员'
+          }}</span>
+          <span class="mr-3 text-xl font-medium">{{ userInfo.username }}</span>
         </div>
         <div ref="avatarRef" class="relative">
           <el-avatar
@@ -19,7 +21,7 @@
               '!bg-[#2678ff] !text-xl select-none transition-all z-2 relative',
               isAvatarHovered && 'scale-125 translate-y-2',
             ]"
-            >王</el-avatar
+            >{{ userInfo.username.slice(0, 1) }}</el-avatar
           >
           <transition name="pane-fade">
             <div
