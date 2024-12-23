@@ -7,17 +7,33 @@
 
   const router = useRouter()
 
-  const userStore = useUserStore()
-  const { userInfo } = storeToRefs(userStore)
+  const adminViews = [
+    '/stu/list',
+    '/info/list',
+    '/info/post',
+    '/res/list',
+    '/res/post',
+    '/group/manage',
+    '/report/manage',
+    '/project/task',
+    '/project/repo',
+  ]
 
-  router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  const { isAdmin, userInfo } = storeToRefs(userStore)
+
+  router.beforeEach((to, _, next) => {
     if (to.path === '/login') {
       next()
     } else {
       if (!userInfo.value || !Object.keys(userInfo.value).length) {
         next('/login')
       } else {
-        next()
+        if (adminViews.includes(to.path) && !isAdmin.value) {
+          next('/')
+        } else {
+          next()
+        }
       }
     }
   })

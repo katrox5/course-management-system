@@ -2,7 +2,8 @@ import { useLocalStorage } from '@vueuse/core'
 
 export const useUserStore = defineStore('user', () => {
   const userInfo = useLocalStorage('userInfo', {}, { initOnMounted: true })
-  const isAdmin = computed(() => true)
+  const isAdmin = computed(() => userInfo.value.role == 2)
+  const isLeader = computed(() => userInfo.value.role == 1)
 
   const router = useRouter()
 
@@ -23,5 +24,6 @@ export const useUserStore = defineStore('user', () => {
   return {
     userInfo,
     isAdmin,
+    isLeader,
   }
 })
