@@ -15,10 +15,12 @@
       stripe
       border
     >
-      <el-table-column prop="task_id" label="编号" width="100" />
-      <el-table-column prop="task_name" label="任务" />
+      <el-table-column prop="task_id" label="编号" width="60" />
+      <el-table-column prop="task_name" label="任务" width="200" />
       <el-table-column prop="description" label="详情" />
-      <el-table-column prop="creator_id" label="创建者" width="100" />
+      <el-table-column prop="creator_id" label="创建者" width="150">
+        <template #default="{ row }">{{ getUserName(row.creator_id) }}</template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" width="80">
         <template #default="{ row }">
           <el-tag v-if="row.status === 'todo'" type="danger">待处理</el-tag>
@@ -86,9 +88,12 @@
 
 <script setup lang="ts">
   import { ElMessage } from 'element-plus'
+  import { useUserStore } from '@/stores/user'
 
   const PageSize = 10
   const pageIndex = ref(0)
+
+  const { getUserName } = useUserStore()
 
   const drawerVisible = ref(false)
 

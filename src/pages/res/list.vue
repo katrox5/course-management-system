@@ -27,13 +27,15 @@
       stripe
       border
     >
-      <el-table-column prop="file_id" label="编号" width="100" />
+      <el-table-column prop="file_id" label="编号" width="60" />
       <el-table-column prop="file_name" label="文件名" />
       <el-table-column prop="file_path" label="文件路径" />
-      <el-table-column prop="uploader_id" label="上传者" width="100" />
+      <el-table-column label="上传者" width="150">
+        <template #default="{ row }">{{ getUserName(row.uploader_id) }}</template>
+      </el-table-column>
       <el-table-column prop="uploaded_at" label="上传时间" width="120">
         <template #default="{ row }">
-          {{ new Date(row.created_at).toLocaleDateString() }}
+          {{ new Date(row.uploaded_at).toLocaleDateString() }}
         </template>
       </el-table-column>
       <el-table-column label="操作" width="80">
@@ -62,9 +64,12 @@
 
 <script setup lang="ts">
   import { ElMessage } from 'element-plus'
+  import { useUserStore } from '@/stores/user'
 
   const PageSize = 10
   const pageIndex = ref(0)
+
+  const { getUserName } = useUserStore()
 
   type ModelData = {
     file_id: number | undefined

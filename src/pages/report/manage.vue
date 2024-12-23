@@ -20,9 +20,11 @@
       stripe
       border
     >
-      <el-table-column prop="weekNumber" label="周次" width="100" />
+      <el-table-column prop="weekNumber" label="周次" />
       <el-table-column prop="weekPlace" label="位次" />
-      <el-table-column prop="status" label="状态" />
+      <el-table-column label="报告学生">
+        <template #default="{ row }">{{ getUserName(row.status) }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="80">
         <template #default="{ row }">
           <el-button icon="ElIconDelete" type="danger" link @click="cancelItem(row)" title="删除" />
@@ -42,9 +44,12 @@
 
 <script setup lang="ts">
   import { ElMessage } from 'element-plus'
+  import { useUserStore } from '@/stores/user'
 
   const PageSize = 10
   const pageIndex = ref(0)
+
+  const { getUserName } = useUserStore()
 
   type ModelData = {
     availableSlots: number | undefined

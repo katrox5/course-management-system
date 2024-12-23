@@ -27,10 +27,12 @@
       stripe
       border
     >
-      <el-table-column prop="announcement_id" label="编号" width="100" />
-      <el-table-column prop="title" label="标题" />
+      <el-table-column prop="announcement_id" label="编号" width="60" />
+      <el-table-column prop="title" label="标题" width="200" />
       <el-table-column prop="content" label="内容" />
-      <el-table-column prop="created_by" label="创建者" width="100" />
+      <el-table-column label="创建者" width="150">
+        <template #default="{ row }">{{ getUserName(row.created_by) }}</template>
+      </el-table-column>
       <el-table-column prop="created_at" label="创建时间" width="120">
         <template #default="{ row }">
           {{ new Date(row.created_at).toLocaleDateString() }}
@@ -55,9 +57,12 @@
 
 <script setup lang="ts">
   import { ElMessage } from 'element-plus'
+  import { useUserStore } from '@/stores/user'
 
   const PageSize = 10
   const pageIndex = ref(0)
+
+  const { getUserName } = useUserStore()
 
   type ModelData = {
     announcement_id: number | undefined
@@ -77,7 +82,7 @@
     })
       .then((response) => response.json())
       .then((result) => (tableData.value = result))
-      .catch((error) => console.log('error', error))
+      .catch((error) => console.warn(error))
   }
   onMounted(requestData)
 

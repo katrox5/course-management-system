@@ -1,27 +1,29 @@
 <template>
   <div class="grid gap-2 group__cards">
-    <template v-for="item in tableData">
+    <template v-for="(item, index) in tableData">
       <el-card shadow="hover" class="w-[250px] !bg-[#f4f3f3]" body-class="!p-3">
         <div class="flex items-center gap-x-2">
-          <el-icon :color="item ? '#67c23a' : '#409eff'">
-            <el-icon-success-filled v-if="item" />
+          <el-icon :color="isActive == index ? '#67c23a' : '#409eff'">
+            <el-icon-success-filled v-if="isActive == index" />
             <el-icon-info-filled v-else />
           </el-icon>
-          <span class="text-sm font-medium"> {{ item ? '已' : '可' }}选择 </span>
+          <span class="text-sm font-medium"> {{ isActive == index ? '已' : '可' }}选择 </span>
         </div>
         <div class="flex flex-col text-sm text-gray-5 pl-6 py-3">
           <span>组号：{{ item.groupId }}</span>
           <span>组名：{{ item.groupName }}</span>
           <span>组长：{{ item.groupLeaderId }}</span>
-          <span>已选人数：{{ item.memberCount }} / 8</span>
+          <span
+            >已选人数：{{ isActive == index ? item.memberCount : +item.memberCount - 1 }} / 8</span
+          >
         </div>
         <div class="flex flex-row-reverse">
           <el-button
-            :type="item ? 'danger' : 'primary'"
+            :type="isActive == index ? 'danger' : 'primary'"
             class="flex ml-auto"
-            @click=""
+            @click="isActive = index"
           >
-            {{ item ? '取消' : '确认' }}选择
+            {{ isActive == index ? '取消' : '确认' }}选择
           </el-button>
         </div>
       </el-card>
@@ -57,12 +59,15 @@
           })
         }
         tableData.value = obj
+        isActive.value = tableData.value.length - 1
       })
       .catch((error) => console.warn(error))
   }
   onMounted(requestData)
 
   const tableData = ref<ModelData[]>([])
+
+  const isActive = ref(-1)
 </script>
 
 <style scoped>
