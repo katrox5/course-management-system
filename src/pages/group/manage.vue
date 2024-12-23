@@ -1,239 +1,162 @@
-<script setup lang="ts"></script>
-
 <template>
-  <div class="group-management">
-    <div class="search-bar">
-      <label>学号</label>
-      <input v-model="studentId" placeholder="请输入学号" />
-      <label>姓名</label>
-      <input v-model="name" placeholder="请输入姓名" />
-      <button @click="searchGroups">查询</button>
-    </div>
-    <div class="group-list">
-      <table>
-        <thead>
-          <tr>
-            <th>组别</th>
-            <th>组名</th>
-            <th>组长</th>
-            <th>状态</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="group in groups" :key="group.id">
-            <td>{{ group.groupNumber }}</td>
-            <td>{{ group.name }}</td>
-            <td>{{ group.leader }}</td>
-            <td>{{ group.status }}</td>
-            <td>
-              <button @click="viewGroup(group)">查看</button>
-              <button @click="deleteGroup(group)">删除</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="pagination">
-        <button @click="prevPage" :disabled="currentPage === 1">‹</button>
-        <button
-          v-for="page in totalPages"
-          :key="page"
-          @click="gotoPage(page)"
-          :class="{ active: currentPage === page }"
-          >{{ page }}</button
+  <div class="b-b-solid b-b-[#f4f3f3]">
+    <h3 class="mb-4">分组管理</h3>
+    <el-form :model="form">
+      <div class="grid gap-4" style="grid-template-columns: repeat(2, 1fr) auto auto">
+        <el-form-item label="组号">
+          <el-input v-model="form.groupId" placeholder="请输入组号" />
+        </el-form-item>
+        <el-form-item label="组名">
+          <el-input v-model="form.groupName" placeholder="请输入组名" />
+        </el-form-item>
+        <el-button @click="resetForm">重置</el-button>
+        <el-button class="!ml-0" type="primary">新建</el-button>
+      </div>
+    </el-form>
+  </div>
+
+  <div class="mt-4">
+    <el-table
+      :data="tableDataFilter.slice(pageIndex * PageSize, (pageIndex + 1) * PageSize)"
+      stripe
+      border
+    >
+      <el-table-column prop="groupId" label="组号" width="100" />
+      <el-table-column prop="groupName" label="组名" />
+      <el-table-column prop="groupLeaderId" label="组长" />
+      <el-table-column label="成员数量" width="100">
+        <template #default="{ row }">
+          <el-tag round :type="row.memberCount != 8 ? 'success' : 'danger'"
+            >{{ row.memberCount }} / 8</el-tag
+          >
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="80">
+        <template #default="{ row }">
+          <el-button icon="ElIconDelete" type="danger" link @click="deleteItem(row)" title="删除" />
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-pagination
+      layout="prev, pager, next"
+      :page-size="PageSize"
+      :total="tableDataFilter.length"
+      class="mt-4 flex flex-justify-end"
+      @current-change="(page) => (pageIndex = page - 1)"
+    />
+  </div>
+  <!-- <el-drawer v-model="drawerVisible" :show-close="false" @closed="clearForm">
+    <div class="h-full flex flex-col">
+      <h2 class="mb-4">新建分组</h2>
+      <el-form :model="form">
+        <el-form-item label="组名">
+          <el-input v-model="form.task_name" placeholder="请输入小组名称" />
+        </el-form-item>
+        <el-form-item>
+          <el-input
+            v-model="form.description"
+            type="textarea"
+            resize="none"
+            :autosize="{ minRows: 5 }"
+            placeholder="任务描述"
+          />
+        </el-form-item>
+        <div class="grid grid-cols-2 gap-x-4">
+          <el-form-item label="状态">
+            <el-select v-model="form.status" placeholder="任务状态">
+              <el-option label="待处理" value="todo" />
+              <el-option label="进行中" value="in_progress" />
+              <el-option label="已完成" value="done" />
+            </el-select>
+          </el-form-item>
+          <el-form-item v-if="!editTaskId" label="负责人">
+            <el-input v-model="form.creator_id" placeholder="负责人ID" resize="none" />
+          </el-form-item>
+        </div>
+      </el-form>
+      <div class="mt-auto">
+        <el-button
+          icon="ElIconCheck"
+          type="success"
+          @click="editTaskId ? updateTask() : createTask()"
+          >保存</el-button
         >
-        <button @click="nextPage" :disabled="currentPage === totalPages">›</button>
+        <el-button icon="ElIconClose" @click="drawerVisible = false">取消</el-button>
       </div>
     </div>
-    <button @click="addGroup" class="add-group-button">+ 新建</button>
-  </div>
+  </el-drawer> -->
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ElMessage } from 'element-plus'
 
-  // 示例数据
-  const groups = ref([
-    {
-      id: 1,
-      groupNumber: '一号',
-      name: '第一组',
-      leader: '吴彦祖',
-      status: '5/8',
-    },
-    {
-      id: 2,
-      groupNumber: '二号',
-      name: '第二组',
-      leader: '李二',
-      status: '7/8',
-    },
-    {
-      id: 3,
-      groupNumber: '三号',
-      name: '第三组',
-      leader: '李三',
-      status: '7/8',
-    },
-    {
-      id: 4,
-      groupNumber: '四号',
-      name: '第四组',
-      leader: '李四',
-      status: '8/8',
-    },
-    {
-      id: 5,
-      groupNumber: '五号',
-      name: '第五组',
-      leader: '李五',
-      status: '3/8',
-    },
-  ])
+  const PageSize = 10
+  const pageIndex = ref(0)
 
-  const studentId = ref('')
-  const name = ref('')
-
-  const searchGroups = () => {
-    // 模拟搜索逻辑
-    console.log('Search:', studentId.value, name.value)
+  type ModelData = {
+    groupId: number | undefined
+    groupName: string
+    groupLeaderId: number | undefined
+    memberCount: string
   }
 
-  const viewGroup = (group) => {
-    alert(`查看 ${group.name}`)
+  function requestData() {
+    fetch('/dev/group/list', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        const tempArray = []
+        for (const item of result.data.userGroupDtoList) {
+          tempArray.push({
+            groupId: item.groupId,
+            groupName: item.groupName,
+            groupLeaderId: item.userId,
+            memberCount: item.member_count,
+          })
+        }
+        tableData.value = tempArray
+      })
+      .catch((error) => console.warn(error))
+  }
+  onMounted(requestData)
+
+  const form = reactive<ModelData>({
+    groupId: undefined,
+    groupName: '',
+    groupLeaderId: undefined,
+    memberCount: '',
+  })
+
+  const tableData = ref<ModelData[]>([])
+  const tableDataFilter = computed(() => {
+    return tableData.value.filter((item) => {
+      return (
+        (!form.groupId || String(item.groupId).includes(String(form.groupId))) &&
+        (!form.groupName || item.groupName.includes(form.groupName))
+      )
+    })
+  })
+
+  function resetForm() {
+    form.groupId = undefined
+    form.groupName = ''
   }
 
-  const deleteGroup = (group) => {
-    alert(`删除 ${group.name}`)
-  }
-
-  const addGroup = () => {
-    alert('新建分组')
-  }
-
-  const currentPage = ref(1)
-  const itemsPerPage = 5
-  const totalPages = computed(() => Math.ceil(groups.value.length / itemsPerPage))
-
-  const prevPage = () => {
-    if (currentPage.value > 1) {
-      currentPage.value--
-    }
-  }
-
-  const nextPage = () => {
-    if (currentPage.value < totalPages.value) {
-      currentPage.value++
-    }
-  }
-
-  const gotoPage = (page) => {
-    currentPage.value = page
+  function deleteItem(item: ModelData) {
+    fetch(`/dev/group/deleteGroup?groupsId=${item.groupId}`, {
+      method: 'DELETE',
+      redirect: 'follow',
+    })
+      .then(() => {
+        ElMessage.success('删除成功')
+        requestData()
+      })
+      .catch((error) => console.warn(error))
   }
 </script>
-
-<style scoped>
-  .group-management {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .search-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .search-bar input {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-  .search-bar button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .group-list {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th,
-  td {
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
-
-  th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-  }
-
-  td {
-    text-align: center;
-  }
-
-  td button {
-    padding: 5px 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  td button:first-child {
-    background-color: #007bff;
-    color: white;
-  }
-
-  td button:last-child {
-    background-color: #dc3545;
-    color: white;
-  }
-
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .pagination button {
-    margin: 0 5px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .pagination .active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
-
-  .add-group-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-</style>

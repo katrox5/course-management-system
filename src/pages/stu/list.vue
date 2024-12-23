@@ -4,14 +4,14 @@
     <el-form :model="form">
       <div class="grid gap-3" style="grid-template-columns: repeat(2, 1fr) auto">
         <el-form-item label="学号">
-          <el-input v-model="form.userId" placeholder="请输入编号" />
+          <el-input v-model="form.userId" placeholder="请输入学号" />
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="form.username" placeholder="请输入文件名" />
+          <el-input v-model="form.username" placeholder="请输入姓名" />
         </el-form-item>
         <div />
         <el-form-item label="邮箱">
-          <el-input v-model="form.email" placeholder="请输入上传者" />
+          <el-input v-model="form.email" placeholder="请输入邮箱" />
         </el-form-item>
         <div />
         <el-button @click="resetForm">重置</el-button>

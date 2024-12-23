@@ -2,24 +2,20 @@
   <div class="b-b-solid b-b-[#f4f3f3]">
     <h3 class="mb-4">信息列表</h3>
     <el-form :model="form">
-      <div class="grid gap-4" style="grid-template-columns: repeat(3, 1fr) auto">
+      <div class="grid gap-3" style="grid-template-columns: repeat(2, 1fr) auto">
         <el-form-item label="编号">
           <el-input v-model="form.announcement_id" placeholder="请输入编号" />
         </el-form-item>
         <el-form-item label="标题">
           <el-input v-model="form.title" placeholder="请输入标题" />
         </el-form-item>
-        <el-form-item label="内容">
-          <el-input v-model="form.content" placeholder="请输入班级" />
-        </el-form-item>
         <div />
-        <el-form-item label="创建者">
-          <el-input v-model="form.created_by" placeholder="请输入班级" />
+        <el-form-item label="内容">
+          <el-input v-model="form.content" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="创建时间">
           <el-date-picker v-model="form.created_at" type="date" placeholder="请选择时间" />
         </el-form-item>
-        <div />
         <el-button @click="resetForm">重置</el-button>
       </div>
     </el-form>
@@ -101,7 +97,6 @@
           String(item.announcement_id).includes(String(form.announcement_id))) &&
         (!form.title || item.title.includes(form.title)) &&
         (!form.content || item.content.includes(form.content)) &&
-        (!form.created_by || item.created_by?.includes(form.created_by)) &&
         (!form.created_at ||
           new Date(item.created_at)
             .toLocaleDateString()
