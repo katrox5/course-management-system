@@ -21,11 +21,11 @@ export const useUserStore = defineStore('user', () => {
     )
   })
 
-  const userMapper = new Map()
+  const userMapper = ref(new Map())
 
   function getUserName(userId: string) {
-    if (userMapper.has(userId)) {
-      return userMapper.get(userId)
+    if (userMapper.value.has(userId)) {
+      return userMapper.value.get(userId)
     }
     fetch(`/dev/username?userId=${userId}`, {
       method: 'GET',
@@ -33,7 +33,7 @@ export const useUserStore = defineStore('user', () => {
       .then((response) => response.text())
       .then((result) => {
         const username = result
-        userMapper.set(userId, username)
+        userMapper.value.set(userId, username)
         return username
       })
   }
@@ -42,6 +42,7 @@ export const useUserStore = defineStore('user', () => {
     userInfo,
     isAdmin,
     isLeader,
+    userMapper,
     getUserName,
   }
 })
