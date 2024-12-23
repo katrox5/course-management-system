@@ -9,7 +9,7 @@
         <el-form-item label="姓名">
           <el-input v-model="form.username" placeholder="请输入姓名" />
         </el-form-item>
-        <div />
+        <el-button type="primary">添加</el-button>
         <el-form-item label="邮箱">
           <el-input v-model="form.email" placeholder="请输入邮箱" />
         </el-form-item>
@@ -30,7 +30,7 @@
       <el-table-column prop="email" label="邮箱" />
       <el-table-column label="职位" width="120">
         <template #default="{ row }">
-          {{ row.role == 0 ? '组员' : '组长' }}
+          {{ row.role == 0 ? '组员' : row.role == 1 ? '组长' : '管理员' }}
         </template>
       </el-table-column>
     </el-table>

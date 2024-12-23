@@ -1,5 +1,15 @@
 <template>
-  <h3>任务列表</h3>
+  <div class="flex items-start">
+    <h3>任务列表</h3>
+    <el-button
+      icon="ElIconPlus"
+      type="primary"
+      class="ml-auto"
+      round
+      @click="drawerVisible = true"
+      v-if="userInfo.role == 1 || userInfo.role == 2"
+    />
+  </div>
   <div class="mt-4">
     <el-table
       :data="tableData.slice(pageIndex * PageSize, (pageIndex + 1) * PageSize)"
@@ -65,7 +75,12 @@
         </div>
       </el-form>
       <div class="mt-auto">
-        <el-button icon="ElIconCheck" type="success" @click="updateTask()">保存</el-button>
+        <el-button
+          icon="ElIconCheck"
+          type="success"
+          @click="editTaskId ? updateTask() : createTask()"
+          >保存</el-button
+        >
         <el-button icon="ElIconClose" @click="drawerVisible = false">取消</el-button>
       </div>
     </div>
@@ -79,7 +94,9 @@
   const PageSize = 10
   const pageIndex = ref(0)
 
-  const { getUserName } = useUserStore()
+  const userStore = useUserStore()
+  const { getUserName } = userStore
+  const { userInfo } = storeToRefs(userStore)
 
   const drawerVisible = ref(false)
 
@@ -141,6 +158,24 @@
       .then(() => {
         ElMessage.success('删除成功')
         requestData()
+      })
+      .catch((error) => console.warn(error))
+  }
+
+  function createTask() {
+    fetch('/dev/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+      redirect: 'follow',
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        ElMessage.success('创建成功')
+        tableData.value.push(result)
+        drawerVisible.value = false
       })
       .catch((error) => console.warn(error))
   }

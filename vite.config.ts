@@ -29,9 +29,11 @@ export default defineConfig({
     },
   },
   server: {
+    host: '0.0.0.0',
+    port: 80,
     proxy: {
       '/dev': {
-        target: 'http://172.29.18.40:8080',
+        target: 'http://172.26.186.202:8080',
         rewrite: (path) => path.replace(/^\/dev/, ''),
         changeOrigin: true,
       },

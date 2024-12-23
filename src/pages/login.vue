@@ -109,7 +109,7 @@
 
 <template>
   <div class="w-2/3 h-full float-left bg" />
-  <div class="w-1/3 h-full float-right">
+  <div class="w-1/3 h-full float-right relative">
     <el-form
       v-show="!totpView"
       class="flex h-full"
@@ -121,7 +121,11 @@
       hide-required-asterisk
     >
       <div class="flex flex-col m-auto w-90 gap-y-2">
-        <h3 class="text-2xl font-medium mb-8">欢迎使用</h3>
+        <h1
+          class="flex justify-center mb-8 font-bold text-5xl bg-gradient-to-r bg-clip-text from-[#8270ff] to-[#59b8ed] text-transparent text-nowrap"
+        >
+          课程管理系统
+        </h1>
         <el-form-item label="账号" prop="username">
           <el-input v-model="form.username" placeholder="请输入您的账号" @keydown.enter="login" />
         </el-form-item>

@@ -15,8 +15,6 @@
     '/res/post',
     '/group/manage',
     '/report/manage',
-    '/project/task',
-    '/project/repo',
   ]
 
   const userStore = useUserStore()

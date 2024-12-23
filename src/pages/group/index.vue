@@ -1,5 +1,5 @@
 <template>
-  <div class="grid gap-2 group__cards">
+  <div class="flex gap-x-8">
     <template v-for="(item, index) in tableData">
       <el-card shadow="hover" class="w-[250px] !bg-[#f4f3f3]" body-class="!p-3">
         <div class="flex items-center gap-x-2">

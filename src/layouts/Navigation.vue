@@ -124,6 +124,16 @@
     {
       label: '项目管理',
       route: '/project',
+      children: [
+        {
+          label: '任务管理',
+          route: '/task',
+        },
+        {
+          label: '代码仓库',
+          route: '/repo',
+        },
+      ],
     },
   ]
 

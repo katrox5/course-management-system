@@ -7,6 +7,7 @@
       class="ml-auto"
       round
       @click="drawerVisible = true"
+      v-if="userInfo.role == 1"
     />
   </div>
   <div class="mt-4">
@@ -21,7 +22,7 @@
       <el-table-column prop="creator_id" label="创建者" width="150">
         <template #default="{ row }">{{ getUserName(row.creator_id) }}</template>
       </el-table-column>
-      <el-table-column prop="status" label="状态" width="80">
+      <el-table-column prop="status" label="状态" width="100">
         <template #default="{ row }">
           <el-tag v-if="row.status === 'todo'" type="danger">待处理</el-tag>
           <el-tag v-else-if="row.status === 'in_progress'" type="warning">进行中</el-tag>
@@ -46,13 +47,18 @@
   </div>
   <el-drawer v-model="drawerVisible" :show-close="false" @closed="clearForm">
     <div class="h-full flex flex-col">
-      <h2 class="mb-4">{{ editTaskId ? '编辑任务' : '创建任务' }}</h2>
+      <h2 class="mb-4">{{ !editTaskId ? '创建' : userInfo.role == 0 ? '查看' : '编辑' }}任务</h2>
       <el-form :model="form">
         <el-form-item>
-          <el-input v-model="form.task_name" placeholder="任务名称" />
+          <el-input
+            :disabled="userInfo.role == 0"
+            v-model="form.task_name"
+            placeholder="任务名称"
+          />
         </el-form-item>
         <el-form-item>
           <el-input
+            :disabled="userInfo.role == 0"
             v-model="form.description"
             type="textarea"
             resize="none"
@@ -62,7 +68,7 @@
         </el-form-item>
         <div class="grid grid-cols-2 gap-x-4">
           <el-form-item label="状态">
-            <el-select v-model="form.status" placeholder="任务状态">
+            <el-select :disabled="userInfo.role == 0" v-model="form.status" placeholder="任务状态">
               <el-option label="待处理" value="todo" />
               <el-option label="进行中" value="in_progress" />
               <el-option label="已完成" value="done" />
@@ -73,7 +79,7 @@
           </el-form-item>
         </div>
       </el-form>
-      <div class="mt-auto">
+      <div class="mt-auto" v-if="userInfo.role != 0">
         <el-button
           icon="ElIconCheck"
           type="success"
@@ -93,7 +99,9 @@
   const PageSize = 10
   const pageIndex = ref(0)
 
-  const { getUserName } = useUserStore()
+  const userStore = useUserStore()
+  const { getUserName } = userStore
+  const { userInfo } = storeToRefs(userStore)
 
   const drawerVisible = ref(false)
 
