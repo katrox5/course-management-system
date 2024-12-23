@@ -165,14 +165,6 @@
       ],
     },
     {
-      label: '分组管理',
-      route: '/group/manage',
-    },
-    {
-      label: '分享报告管理',
-      route: '/report/manage',
-    },
-    {
       label: '项目管理',
       route: '/project',
       children: [
@@ -185,6 +177,14 @@
           route: '/repo',
         },
       ],
+    },
+    {
+      label: '分组管理',
+      route: '/group/manage',
+    },
+    {
+      label: '分享报告管理',
+      route: '/report/manage',
     },
   ]
 
