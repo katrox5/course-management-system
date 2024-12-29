@@ -33,7 +33,7 @@ export default defineConfig({
     port: 80,
     proxy: {
       '/dev': {
-        target: 'http://172.26.186.202:8080',
+        target: 'http://localhost:8080',
         rewrite: (path) => path.replace(/^\/dev/, ''),
         changeOrigin: true,
       },
